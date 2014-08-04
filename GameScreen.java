@@ -54,7 +54,6 @@ public class GameScreen extends JPanel {
 		checkForPlayerCollision();
 	}
 	
-	
 	private void startUpdatingGame(){
 		Timer gameUpdater = new Timer(UPDATE_TIME_IN_MS, new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -70,9 +69,8 @@ public class GameScreen extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				//No need for updateCounter to be volatile or methods sync'd
 					//since this method is read-only
-				if(updateCounter%10 == 0){
-					if(RAND.nextBoolean())
-						chooseCarToBuild();	
+				if(updateCounter%10 == 0 && if(RAND.nextBoolean()){
+					chooseCarToBuild();	
 				}
 			}
 		});
@@ -82,11 +80,13 @@ public class GameScreen extends JPanel {
 	private void chooseCarToBuild(){
 		int carChoice = RAND.nextInt(3);
 		
-		if(carChoice == 0)
+		if(carChoice == 0){
 			cars.add(CarFactory.yellowCar());
-		else if(carChoice == 1)
+		} else if(carChoice == 1){
 			cars.add(CarFactory.cyanCar());
-		else cars.add(CarFactory.redCar());
+		} else{
+			cars.add(CarFactory.redCar());
+		}
 	}
 	
 	private void startMovingCars(){
@@ -97,8 +97,9 @@ public class GameScreen extends JPanel {
 					
 					if(currentSpeed > aiCarSpeed){
 						car.moveDown(currentSpeed-aiCarSpeed);
+					} else{
+						car.moveUp(aiCarSpeed-currentSpeed);
 					}
-					else car.moveUp(aiCarSpeed-currentSpeed);
 					
 					if(car.getType() == CarType.CYAN){
 						//Wait for cooldown to finish
@@ -112,9 +113,11 @@ public class GameScreen extends JPanel {
 						}
 						
 						//If not on CD
-						if(car.getCooldown() < 0)
+						if(car.getCooldown() < 0){
 							car.cyanMove(car.getDirection());
-						else car.setCooldown(car.getCooldown()+1);
+						} else{
+							car.setCooldown(car.getCooldown()+1);
+						}
 					}
 					
 					//TODO Red cars moving at wrong times...
@@ -122,8 +125,9 @@ public class GameScreen extends JPanel {
 						double xDistance = carsXDistance(playerCar, car);
 						double yDistance = carsYDistance(playerCar, car);
 										
-						if(xDistance < 30 || yDistance < 10)
+						if(xDistance < 30 || yDistance < 10){
 							car.redMove((car.x > (playerCar.x+25)));
+						}
 					}
 				}
 			}
@@ -134,8 +138,9 @@ public class GameScreen extends JPanel {
 	private void startFrictionSlowDown(){
 		Timer frictionSlowDown = new Timer(UPDATE_TIME_IN_MS, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(currentSpeed - 0.5 >= 0)
+				if(currentSpeed - 0.5 >= 0){
 					currentSpeed -= 0.5;
+				}
 			}
 		});
 		frictionSlowDown.start();
@@ -177,8 +182,9 @@ public class GameScreen extends JPanel {
 		Timer checkForPlayerCollision = new Timer(UPDATE_TIME_IN_MS, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				for(Car car : cars){
-					if(carsOverlap(playerCar, car))
+					if(carsOverlap(playerCar, car)){
 						resetGame();
+					}
 				}
 			}
 		});
@@ -186,22 +192,23 @@ public class GameScreen extends JPanel {
 	}
 	
 	private boolean carsOverlap(Car iCar, Car jCar){		
-		if(carsXDistance(iCar, jCar) > 30)
+		if(carsXDistance(iCar, jCar) > 30){
 			return false;
-		if(carsYDistance(iCar, jCar) > 50)
+		}
+		
+		if(carsYDistance(iCar, jCar) > 50){
 			return false;
+		}
 		return true;
 	}
 	
 	private double carsXDistance(Car iCar, Car jCar){
 		return Math.abs(iCar.x-jCar.x);
-		
 	}
 	
 	private double carsYDistance(Car iCar, Car jCar){
 		return Math.abs(iCar.y-jCar.y);
 	}
-	
 	
 	//These two could be in the Car class, but I didn't think it made sense to update car
 	//and then just call that value back from the object, so moved it here instead.
@@ -209,13 +216,15 @@ public class GameScreen extends JPanel {
 	//Rather than check to see if a key was pressed, I'm going to slow down by 0.5 each update,
 	//And just change speed up to 1.5 and slow down to 1.5 to compensate 
 	public void speedUp(){
-		if(currentSpeed + 1.5 <= 20)
+		if(currentSpeed + 1.5 <= 20){
 			currentSpeed += 1.5;
+		}
 	}
 	
 	public void slowDown(){
-		if(currentSpeed - 1.5 >= 0)
+		if(currentSpeed - 1.5 >= 0){
 			currentSpeed -= 1.5;
+		}
 	}
 	
 	private void resetGame(){
@@ -263,10 +272,9 @@ public class GameScreen extends JPanel {
 			if(tempCar.getStatus() == CarStatus.SLOWER){
 				cars.remove(i);
 				carsPassed++;
-			}
-			else if(tempCar.getStatus() == CarStatus.SLOWER)
+			} else if(tempCar.getStatus() == CarStatus.SLOWER){
 				cars.remove(i);
-			else{
+			} else{
 				g2.setColor(tempCar.getColour());
 				g2.fill(tempCar);
 				g2.draw(tempCar);
@@ -285,5 +293,4 @@ public class GameScreen extends JPanel {
 		speedLabel.setText("Speed: " + currentSpeed + ", Passed " + carsPassed + " cars");	
 		speedLabel.setForeground(Color.WHITE);
 	}
-
 }

@@ -23,6 +23,55 @@ public class Car extends Rectangle{
 		this.type = type;
 	}
 	
+	public void setDirection(){
+		if(x-5 < 100){
+			direction = false;
+		} else if(x+5 > 270){
+			direction = true;
+		} else{
+			direction = RAND.nextBoolean();
+		}
+	}
+	
+	public void turnLeft(){
+		if(x-5 > 100){
+			super.setLocation(x-5, y);
+		}
+	}
+	
+	public void turnRight(){
+		if(x+5 < 270){
+			super.setLocation(x+5, y);
+		}
+	}
+	
+	public void moveDown(double movement){
+		super.setLocation(x, (int) (y+movement));
+		if(y > 600){
+			status = CarStatus.SLOWER;
+		}
+	}
+	
+	public void moveUp(double movement){
+		super.setLocation(x, (int) (y-movement));
+		if(y < 0){
+			status = CarStatus.FASTER;
+		}
+	}
+	
+	public void cyanMove(boolean direction){
+		if(direction){
+			turnLeft();
+		} else{
+			turnRight();
+		}
+		cooldown++;
+	}
+	
+	public void redMove(boolean directionIsLeft){
+		cyanMove(directionIsLeft);
+	}
+	
 	public Color getColour(){
 		return colour;
 	}
@@ -47,50 +96,7 @@ public class Car extends Rectangle{
 		return direction;
 	}
 	
-	public void setDirection(){
-		
-		if(x-5 < 100)
-			direction = false;
-		else if(x+5 > 270)
-			direction = true;
-		else direction = RAND.nextBoolean();
-	}
-	
-	public void turnLeft(){
-		if(x-5 > 100)
-			super.setLocation(x-5, y);
-	}
-	
-	public void turnRight(){
-		if(x+5 < 270)
-			super.setLocation(x+5, y);
-	}
-	
-	public void moveDown(double movement){
-		super.setLocation(x, (int) (y+movement));
-		if(y > 600)
-			status = CarStatus.SLOWER;
-	}
-	
-	public void moveUp(double movement){
-		super.setLocation(x, (int) (y-movement));
-		if(y < 0)
-			status = CarStatus.FASTER;
-	}
-	
 	public CarStatus getStatus(){
 		return status;
-	}
-	
-	public void cyanMove(boolean direction){
-		if(direction)
-			turnLeft();
-		else
-			turnRight();
-		cooldown++;
-	}
-	
-	public void redMove(boolean directionIsLeft){
-		cyanMove(directionIsLeft);
 	}
 }

@@ -36,16 +36,19 @@ public class GameGUI extends JFrame{
 		public void keyPressed(KeyEvent event){
 			int keyCode = event.getKeyCode();
 			
-			if(keyCode == KeyEvent.VK_UP)
+			if(keyCode == KeyEvent.VK_UP){
 				game.speedUp();
-			else if(keyCode == KeyEvent.VK_DOWN)
+			} else if(keyCode == KeyEvent.VK_DOWN){
 				game.slowDown();
+			}
 			
-			if(keyCode == KeyEvent.VK_LEFT)
+			if(keyCode == KeyEvent.VK_LEFT){
 				game.playerCar.turnLeft();
-			if(keyCode == KeyEvent.VK_RIGHT)
+			}
+			
+			if(keyCode == KeyEvent.VK_RIGHT){
 				game.playerCar.turnRight();
+			}
 		}
 	}
-
 }

@@ -20,5 +20,4 @@ public class CarFactory {
 	public static Car redCar(){
 		return new Car(RAND.nextInt(170)+100, 5, CAR_WIDTH, CAR_HEIGHT, Color.RED, CarType.RED);
 	}
-
 }
