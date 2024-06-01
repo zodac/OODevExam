@@ -41,7 +41,7 @@ public class GameScreen extends JPanel {
 		add(speedLabel);
 		
 		try {
-			curb = ImageIO.read(new File("src/racingGame/res/cursor.png"));
+			curb = ImageIO.read(new File("./res/curb.png"));
 		} catch (IOException e) {
 		}
 		
@@ -69,7 +69,7 @@ public class GameScreen extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				//No need for updateCounter to be volatile or methods sync'd
 					//since this method is read-only
-				if(updateCounter%10 == 0 && if(RAND.nextBoolean()){
+				if(updateCounter%10 == 0 && RAND.nextBoolean()) {
 					chooseCarToBuild();	
 				}
 			}
